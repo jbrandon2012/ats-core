@@ -18,7 +18,7 @@ class Level:
         self.overlay = Overlay(self.player)
     
     def setup(self):
-        tmx_data = load_pygame('data/map.tmx')
+        tmx_data = load_pygame('data/maptwo.tmx')
 
         # upload house
         for layer in ['HouseFloor', 'HouseFurnitureBottom']:
@@ -26,7 +26,6 @@ class Level:
                 Generic((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites, LAYERS['house bottom'])
 
 
-    def setup(self):
         Generic(
             pos = (0,0),
             surf = pygame.image.load('graphics/world/ground.png').convert_alpha(),
