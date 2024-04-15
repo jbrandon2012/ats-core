@@ -10,7 +10,7 @@
  <tileset firstgid="171" source="Tilesets/Water.tsx"/>
  <tileset firstgid="172" source="Tilesets/House.tsx"/>
  <tileset firstgid="207" source="Tilesets/House Decoration.tsx"/>
- <layer id="2" name="Water" width="50" height="40" visible="0">
+ <layer id="2" name="Water" width="50" height="40">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
