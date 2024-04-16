@@ -10,6 +10,13 @@ OVERLAY_POSITIONS = {
     'tool' : (40, SCREEN_HEIGHT - 30),
     'seed' : (100, SCREEN_HEIGHT - 30)}
 
+PLAYER_TOOL_OFFSET = {
+    'left': Vector2(-50,40),
+    'right': Vector2(50,40),
+    'up': Vector2(0,-10),
+    'down': Vector2 (-10,0)
+}
+
 LAYERS = {
     'water': 0,
     'ground': 1,
@@ -24,6 +31,10 @@ LAYERS = {
     'rain drops': 10
 }
 
+APPLE_POS = {
+    'Small': [(18,17), (30,37), (12,50), (30,45), (20,30), (30,10)],
+    'Large': [(30,24), (60,65), (50,50), (16,40), (45,50), (42,70)]
 
+}
 
 
