@@ -14,6 +14,7 @@ class Level:
 
         # sprite groups
         self.all_sprites = CameraGroup()
+        self.collision_sprites = pygame.sprite.Group()
 
         self.setup()
         self.overlay = Overlay(self.player)
@@ -33,7 +34,7 @@ class Level:
         # upload fence
         for layer in ['Fence']:
             for x,y, surf in tmx_data.get_layer_by_name(layer).tiles():
-                Generic((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites,)
+                Generic((x * TILE_SIZE, y * TILE_SIZE), surf, [self.all_sprites, self.collision_sprites])
 
         # upload water
         water_frames = import_folder('graphics/water')
@@ -42,13 +43,20 @@ class Level:
 
         # upload trees
         for obj in tmx_data.get_layer_by_name('Trees'):
-            Tree((obj.x, obj.y),obj.image,self.all_sprites, obj.name)
+            Tree((obj.x, obj.y),obj.image,[self.all_sprites, self.collision_sprites], obj.name)
 
         # upload flowers
         for obj in tmx_data.get_layer_by_name('Decoration'):
-            WildFlower((obj.x, obj.y), obj.image, self.all_sprites)
+            WildFlower((obj.x, obj.y), obj.image, [self.all_sprites, self.collision_sprites])
 
-        self.player = Player((640,360), self.all_sprites)
+        # collision tiles
+        for x, y, surf in tmx_data.get_layer_by_name('Collision').tiles():
+            Generic((x * TILE_SIZE, y * TILE_SIZE), pygame.Surface((TILE_SIZE,TILE_SIZE)), self.collision_sprites)
+
+        # player
+        for obj in tmx_data.get_layer_by_name('Player'):
+            if obj.name == 'Start':
+                self.player = Player((obj.x,obj.y), self.all_sprites, self.collision_sprites)
         
         Generic(
             pos = (0,0),
@@ -74,7 +82,7 @@ class CameraGroup(pygame.sprite.Group):
         self.offset.y = player.rect.centery - SCREEN_HEIGHT / 2
 
         for layer in LAYERS.values():
-            for sprite in self.sprites():
+            for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery):
                 if sprite.z == layer:
                     offset_rect = sprite.rect.copy()
                     offset_rect.center -= self.offset
