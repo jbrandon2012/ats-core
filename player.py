@@ -50,15 +50,21 @@ class Player(pygame.sprite.Sprite):
         if self.selected_tool == 'hoe':
             pass
        
-       # if self.selected_tool == 'axe':
-           # for tree in self.tree_sprites.sprites():
-           #     if tree.
+        if self.selected_tool == 'axe':
+           for tree in self.tree_sprites.sprites():
+                if tree.rect.collidepoint(self.get_target_pos()):
+                    tree.damage()
 
         if self.selected_tool == 'water':
             pass
 
     def get_target_pos(self):
-        get_target_pos = self.rect.center + PLAYER_TOOL_OFFSET[self.status.split('_')[0]]
+        # get_target_pos = self.rect.center + PLAYER_TOOL_OFFSET[self.status.split('_')[0]]
+        
+        direction = self.status.split('_')[0]
+        offset = PLAYER_TOOL_OFFSET[direction]
+        target_pos = (self.rect.centerx + offset[0], self.rect.centery + offset[1])
+        return target_pos
 
     def use_seed(self):
         pass
@@ -137,7 +143,6 @@ class Player(pygame.sprite.Sprite):
             self.status = self.status.split('_')[0] + '_idle'
 
         # tool use
-
         if self.timers['tool use'].active:
             self.status = self.status.split('_')[0] + '_' + self.selected_tool
 
