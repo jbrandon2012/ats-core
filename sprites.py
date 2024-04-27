@@ -69,7 +69,7 @@ class Tree(Generic):
 
     def create_fruit(self):
         for pos in self.apples_pos:
-            if randint(0,10) < 5:
+            if randint(0,10) < 3:
                 x = pos [0] + self.rect.left 
                 y = pos [1] + self.rect.top
                 Generic(
@@ -78,7 +78,7 @@ class Tree(Generic):
                     groups = [self.apple_sprites,self.groups()[0]],
                     z = LAYERS ['fruit']
                 )
-               # print(f"Apple created at {(x, y)} in layer {LAYERS['fruit']}")
+                print(f"Apple created at {(x, y)} in layer {LAYERS['fruit']}")
 
 
 
