@@ -69,15 +69,22 @@ class Tree(Generic):
 
     def create_fruit(self):
         for pos in self.apples_pos:
-            if randint(0,10) < 3:
+            if randint(0,10) > 3:
                 x = pos [0] + self.rect.left 
                 y = pos [1] + self.rect.top
+
+                # contrain apples to screen width - not working
+                x = max(0, min(x, SCREEN_WIDTH - TILE_SIZE))
+                y = max(0, min(y, SCREEN_HEIGHT - TILE_SIZE))
+                
                 Generic(
                     pos = (x, y),
                     surf = self.apple_surf, 
                     groups = [self.apple_sprites,self.groups()[0]],
                     z = LAYERS ['fruit']
                 )
+
+
                 print(f"Apple created at {(x, y)} in layer {LAYERS['fruit']}")
 
 
