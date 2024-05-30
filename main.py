@@ -2,10 +2,6 @@ import pygame, sys
 from settings import *
 from level import Level
 
-import pygame, sys
-from settings import *
-from level import Level
-
 class HomePage:
     def __init__(self):
         # Initialize Pygame's mixer for music
@@ -17,16 +13,19 @@ class HomePage:
 
         # Display settings
         self.display_surface = pygame.display.get_surface()
+        
+        # Load background image
+        self.background = pygame.image.load('graphics/homescreen/IMG_0002.png')
+        self.background = pygame.transform.scale(self.background, (SCREEN_WIDTH, SCREEN_HEIGHT))
+        
         self.font = pygame.font.Font(None, 74)
-        self.title_text = self.font.render("Kepler 94b", True, (255, 255, 255))
-        self.title_rect = self.title_text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
 
         self.start_text = pygame.font.Font(None, 50).render("Press Enter to Start", True, (255, 255, 255))
-        self.start_rect = self.start_text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 100))
+        self.start_rect = self.start_text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 250))
 
     def display(self):
-        self.display_surface.fill((0, 0, 0))  # Black background
-        self.display_surface.blit(self.title_text, self.title_rect)
+        # Draw the background image
+        self.display_surface.blit(self.background, (0, 0))
         self.display_surface.blit(self.start_text, self.start_rect)
         pygame.display.update()
 
@@ -67,9 +66,7 @@ class Game:
                 self.level.run(dt)
                 pygame.display.update()
 
-
 if __name__ == '__main__':
     game = Game()
     game.run()
-
 
