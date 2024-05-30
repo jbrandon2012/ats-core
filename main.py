@@ -1,4 +1,4 @@
-import pygame, sys
+import pygame, sys, os
 from settings import *
 from level import Level
 
@@ -14,18 +14,41 @@ class HomePage:
         # Display settings
         self.display_surface = pygame.display.get_surface()
         
-        # Load background image
-        self.background = pygame.image.load('graphics/homescreen/IMG_0002.png')
-        self.background = pygame.transform.scale(self.background, (SCREEN_WIDTH, SCREEN_HEIGHT))
+        # Load and resize background images dynamically from folder
+        self.background_frames = self.load_background_frames('graphics/homescreen')
+        if not self.background_frames:
+            raise FileNotFoundError("No background frames found in the specified directory.")
+        self.current_frame = 0
+        self.frame_count = len(self.background_frames)
+        self.frame_delay = 980  # Milliseconds per frame
+        self.last_update_time = pygame.time.get_ticks()
         
         self.font = pygame.font.Font(None, 74)
 
         self.start_text = pygame.font.Font(None, 50).render("Press Enter to Start", True, (255, 255, 255))
-        self.start_rect = self.start_text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 250))
+        self.start_rect = self.start_text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 250))  # Adjusted y-coordinate
+
+    def load_background_frames(self, folder):
+        frames = []
+        for filename in sorted(os.listdir(folder)):
+            if filename.endswith('.PNG'):
+                img_path = os.path.join(folder, filename)
+                print(f"Loading image: {img_path}")  # Debugging statement
+                img = pygame.image.load(img_path)
+                img = pygame.transform.scale(img, (SCREEN_WIDTH, SCREEN_HEIGHT))
+                frames.append(img)
+        return frames
+
+    def update_background(self):
+        current_time = pygame.time.get_ticks()
+        if current_time - self.last_update_time > self.frame_delay:
+            self.current_frame = (self.current_frame + 1) % self.frame_count
+            self.last_update_time = current_time
 
     def display(self):
-        # Draw the background image
-        self.display_surface.blit(self.background, (0, 0))
+        self.update_background()
+        # Draw the current background frame
+        self.display_surface.blit(self.background_frames[self.current_frame], (0, 0))
         self.display_surface.blit(self.start_text, self.start_rect)
         pygame.display.update()
 
@@ -69,4 +92,3 @@ class Game:
 if __name__ == '__main__':
     game = Game()
     game.run()
-
